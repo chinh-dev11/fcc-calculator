@@ -178,7 +178,7 @@ class CalculatorComponent extends React.Component {
 
     return (
       <Container fluid>
-        <Row className="calc-container mx-auto" style={{ width: '240px' }}>
+        <Row className="mx-auto my-4 p-4 row rounded" style={{ width: '276px', backgroundColor: 'black' }}>
           <DisplayComponent expression={expression} total={total} />
           <div>{btnsRow1}</div>
           <div>{btnsRow2}</div>

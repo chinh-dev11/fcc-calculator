@@ -15,8 +15,8 @@ const DisplayComponent = (props) => {
   }, []);
 
   return (
-    <div className="text-right" style={{ width: '100%' }}>
-      <div style={{ height: '16px' }}>{expressionDisplay}</div>
+    <div className="text-right text-white" style={{ width: '100%' }}>
+      <div className="p-2 bg-dark mb-1 rounded" style={{ height: '30px' }}>{expressionDisplay}</div>
       <h2>{total}</h2>
     </div>
   );
