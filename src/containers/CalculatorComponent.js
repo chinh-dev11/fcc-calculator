@@ -50,13 +50,14 @@ class CalculatorComponent extends React.Component {
   }
 
   numberHandler(evt) {
-    // console.log(evt.target.value);
+    console.log(evt.target.value);
     // Warning: This synthetic event is reused for performance reasons. If you're seeing this, you're accessing the property `target` on a released/nullified synthetic event. This is set to null. If you must keep the original synthetic event around, use event.persist(). See https://fb.me/react-event-pooling for more information.
     // https://reactjs.org/docs/events.html#event-pooling
     evt.persist(); // the warning is caused by the setState async call below
 
     const reNum = /([^0*])(\d*)(.?)(\d*)/;
     const numValidated = evt.target.value.match(reNum);
+    console.log(numValidated);
 
     this.setState((prevState) => ({
       expression: prevState.lastKeyStroke === 'total' ? numValidated[0] : prevState.expression.concat(numValidated[0]),
