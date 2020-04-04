@@ -198,16 +198,19 @@ class CalculatorComponent extends React.Component {
           type: 'AC',
           label: 'AC',
           handler: this.clearHandler,
+          id: 'clear',
         },
         {
           type: '/',
           label: '/',
           handler: this.operatorHandler,
+          id: 'divide',
         },
         {
           type: '*',
           label: 'x',
           handler: this.operatorHandler,
+          id: 'multiply',
         },
       ],
       row2: [
@@ -215,21 +218,25 @@ class CalculatorComponent extends React.Component {
           type: '7',
           label: '7',
           handler: this.numberHandler,
+          id: 'seven',
         },
         {
           type: '8',
           label: '8',
           handler: this.numberHandler,
+          id: 'eight',
         },
         {
           type: '9',
           label: '9',
           handler: this.numberHandler,
+          id: 'nine',
         },
         {
           type: '-',
           label: '-',
           handler: this.operatorHandler,
+          id: 'subtract',
         },
       ],
       row3: [
@@ -237,21 +244,25 @@ class CalculatorComponent extends React.Component {
           type: '4',
           label: '4',
           handler: this.numberHandler,
+          id: 'four',
         },
         {
           type: '5',
           label: '5',
           handler: this.numberHandler,
+          id: 'five',
         },
         {
           type: '6',
           label: '6',
           handler: this.numberHandler,
+          id: 'six',
         },
         {
           type: '+',
           label: '+',
           handler: this.operatorHandler,
+          id: 'add',
         },
       ],
       row4: [
@@ -259,16 +270,19 @@ class CalculatorComponent extends React.Component {
           type: '1',
           label: '1',
           handler: this.numberHandler,
+          id: 'one',
         },
         {
           type: '2',
           label: '2',
           handler: this.numberHandler,
+          id: 'two',
         },
         {
           type: '3',
           label: '3',
           handler: this.numberHandler,
+          id: 'three',
         },
       ],
       row5: [
@@ -276,11 +290,13 @@ class CalculatorComponent extends React.Component {
           type: '0',
           label: '0',
           handler: this.numberHandler,
+          id: 'zero',
         },
         {
           type: '.',
           label: '.',
           handler: this.numberHandler,
+          id: 'decimal',
         },
       ],
       col4: [
@@ -293,12 +309,12 @@ class CalculatorComponent extends React.Component {
         },
       ],
     };
-    const btnsRow1 = btns.row1.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} />);
-    const btnsRow2 = btns.row2.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} />);
-    const btnsRow3 = btns.row3.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} />);
-    const btnsRow4 = btns.row4.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} />);
-    const btnsCol4 = btns.col4.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} status={btn.status} />);
-    const btnsRow5 = btns.row5.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} />);
+    const btnsRow1 = btns.row1.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} id={btn.id} />);
+    const btnsRow2 = btns.row2.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} id={btn.id} />);
+    const btnsRow3 = btns.row3.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} id={btn.id} />);
+    const btnsRow4 = btns.row4.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} id={btn.id} />);
+    const btnsCol4 = btns.col4.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} status={btn.status} id={btn.id} />);
+    const btnsRow5 = btns.row5.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} id={btn.id} />);
 
     return (
       <Container fluid>

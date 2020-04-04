@@ -17,7 +17,7 @@ const DisplayComponent = (props) => {
   return (
     <div className="text-right text-white" style={{ width: '100%' }}>
       <div className="p-2 bg-dark mb-1 rounded" style={{ minHeight: '30px' }}>{expressionDisplay}</div>
-      <h2>{total}</h2>
+      <h2 id="display">{total}</h2>
     </div>
   );
 };
