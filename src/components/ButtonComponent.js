@@ -2,7 +2,9 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 
 const ButtonComponent = (props) => {
-  const { type, label, handler } = { ...props };
+  const {
+    type, label, handler, status,
+  } = { ...props };
   let btnWidth = '60px';
   let btnHeight = '50px';
   let btnVariant = 'secondary';
@@ -27,7 +29,7 @@ const ButtonComponent = (props) => {
   };
 
   return (
-    <Button value={type} onClick={handler} style={cssInline} className="rounded border" variant={btnVariant}>{label}</Button>
+    <Button value={type} onClick={handler} disabled={status} style={cssInline} className="rounded border" variant={btnVariant}>{label}</Button>
   );
 };
 
