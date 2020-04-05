@@ -24,10 +24,20 @@ class CalculatorComponent extends React.Component {
     this.operatorHandler = this.operatorHandler.bind(this);
     this.totalHandler = this.totalHandler.bind(this);
     this.clearHandler = this.clearHandler.bind(this);
+    this.keypressHandler = this.keypressHandler.bind(this);
+    this.$document = document;
+  }
+
+  componentDidMount() {
+    this.$document.addEventListener('keydown', this.keypressHandler);
+  }
+
+  componentWillUnmount() {
+    this.$document.removeEventListener('keydown', this.keypressHandler);
   }
 
   totalHandler(evt) {
-    evt.persist();
+    if (evt.persist) evt.persist();
 
     const formatNum = (num) => {
       try {
@@ -65,7 +75,7 @@ class CalculatorComponent extends React.Component {
   operatorHandler(evt) {
     const currEntry = evt.target.value;
     // console.log(currEntry);
-    evt.persist();
+    if (evt.persist) evt.persist();
 
     this.setState((prevState) => {
       const { display } = { ...prevState };
@@ -135,7 +145,7 @@ class CalculatorComponent extends React.Component {
     // console.log(currEntry);
     /* Warning: This synthetic event is reused for performance reasons. If you're seeing this, you're accessing the property `target` on a released/nullified synthetic event. This is set to null. If you must keep the original synthetic event around, use event.persist(). See https://fb.me/react-event-pooling for more information.
     https://reactjs.org/docs/events.html#event-pooling */
-    evt.persist(); // the warning is caused by the setState async call below
+    if (evt.persist) evt.persist(); // the warning is caused by the setState async call below
 
     this.setState((prevState) => {
       let {
@@ -186,6 +196,26 @@ class CalculatorComponent extends React.Component {
 
   clearHandler() {
     this.setState(this.initialState);
+  }
+
+  keypressHandler(evt) {
+    const reNum = /[.\d]/;
+    const reOps = /[+\-*/]/;
+    const evtCustom = evt;
+
+    evtCustom.target.value = evt.key;
+
+    if (reNum.test(evt.key)) {
+      this.numberHandler(evt);
+    } else if (reOps.test(evt.key)) {
+      this.operatorHandler(evt);
+    } else if (evt.key === 'Enter') {
+      evtCustom.target.value = '=';
+      this.totalHandler(evt);
+    } else if (evt.key === 'Escape') {
+      evtCustom.target.value = 'AC';
+      this.clearHandler(evt);
+    }
   }
 
   render() {
