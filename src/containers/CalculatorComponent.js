@@ -347,7 +347,7 @@ class CalculatorComponent extends React.Component {
     const btnsRow5 = btns.row5.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} id={btn.id} />);
 
     return (
-      <Container fluid class="calculator-container">
+      <Container fluid className="calculator-container">
         <Row className="mx-auto my-4 p-4 row rounded" style={{ width: '276px', backgroundColor: 'black' }}>
           <DisplayComponent expression={expression} total={total} />
           <div>{btnsRow1}</div>
