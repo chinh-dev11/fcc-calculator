@@ -24,10 +24,20 @@ class CalculatorComponent extends React.Component {
     this.operatorHandler = this.operatorHandler.bind(this);
     this.totalHandler = this.totalHandler.bind(this);
     this.clearHandler = this.clearHandler.bind(this);
+    this.keypressHandler = this.keypressHandler.bind(this);
+    this.$document = document;
+  }
+
+  componentDidMount() {
+    this.$document.addEventListener('keydown', this.keypressHandler);
+  }
+
+  componentWillUnmount() {
+    this.$document.removeEventListener('keydown', this.keypressHandler);
   }
 
   totalHandler(evt) {
-    evt.persist();
+    if (evt.persist) evt.persist();
 
     const formatNum = (num) => {
       try {
@@ -65,7 +75,7 @@ class CalculatorComponent extends React.Component {
   operatorHandler(evt) {
     const currEntry = evt.target.value;
     // console.log(currEntry);
-    evt.persist();
+    if (evt.persist) evt.persist();
 
     this.setState((prevState) => {
       const { display } = { ...prevState };
@@ -135,7 +145,7 @@ class CalculatorComponent extends React.Component {
     // console.log(currEntry);
     /* Warning: This synthetic event is reused for performance reasons. If you're seeing this, you're accessing the property `target` on a released/nullified synthetic event. This is set to null. If you must keep the original synthetic event around, use event.persist(). See https://fb.me/react-event-pooling for more information.
     https://reactjs.org/docs/events.html#event-pooling */
-    evt.persist(); // the warning is caused by the setState async call below
+    if (evt.persist) evt.persist(); // the warning is caused by the setState async call below
 
     this.setState((prevState) => {
       let {
@@ -188,6 +198,26 @@ class CalculatorComponent extends React.Component {
     this.setState(this.initialState);
   }
 
+  keypressHandler(evt) {
+    const reNum = /[.\d]/;
+    const reOps = /[+\-*/]/;
+    const evtCustom = evt;
+
+    evtCustom.target.value = evt.key;
+
+    if (reNum.test(evt.key)) {
+      this.numberHandler(evt);
+    } else if (reOps.test(evt.key)) {
+      this.operatorHandler(evt);
+    } else if (evt.key === 'Enter') {
+      evtCustom.target.value = '=';
+      this.totalHandler(evt);
+    } else if (evt.key === 'Escape') {
+      evtCustom.target.value = 'AC';
+      this.clearHandler(evt);
+    }
+  }
+
   render() {
     const {
       expression, total, btnEqualDisabled,
@@ -198,16 +228,19 @@ class CalculatorComponent extends React.Component {
           type: 'AC',
           label: 'AC',
           handler: this.clearHandler,
+          id: 'clear',
         },
         {
           type: '/',
           label: '/',
           handler: this.operatorHandler,
+          id: 'divide',
         },
         {
           type: '*',
           label: 'x',
           handler: this.operatorHandler,
+          id: 'multiply',
         },
       ],
       row2: [
@@ -215,21 +248,25 @@ class CalculatorComponent extends React.Component {
           type: '7',
           label: '7',
           handler: this.numberHandler,
+          id: 'seven',
         },
         {
           type: '8',
           label: '8',
           handler: this.numberHandler,
+          id: 'eight',
         },
         {
           type: '9',
           label: '9',
           handler: this.numberHandler,
+          id: 'nine',
         },
         {
           type: '-',
           label: '-',
           handler: this.operatorHandler,
+          id: 'subtract',
         },
       ],
       row3: [
@@ -237,21 +274,25 @@ class CalculatorComponent extends React.Component {
           type: '4',
           label: '4',
           handler: this.numberHandler,
+          id: 'four',
         },
         {
           type: '5',
           label: '5',
           handler: this.numberHandler,
+          id: 'five',
         },
         {
           type: '6',
           label: '6',
           handler: this.numberHandler,
+          id: 'six',
         },
         {
           type: '+',
           label: '+',
           handler: this.operatorHandler,
+          id: 'add',
         },
       ],
       row4: [
@@ -259,16 +300,19 @@ class CalculatorComponent extends React.Component {
           type: '1',
           label: '1',
           handler: this.numberHandler,
+          id: 'one',
         },
         {
           type: '2',
           label: '2',
           handler: this.numberHandler,
+          id: 'two',
         },
         {
           type: '3',
           label: '3',
           handler: this.numberHandler,
+          id: 'three',
         },
       ],
       row5: [
@@ -276,11 +320,13 @@ class CalculatorComponent extends React.Component {
           type: '0',
           label: '0',
           handler: this.numberHandler,
+          id: 'zero',
         },
         {
           type: '.',
           label: '.',
           handler: this.numberHandler,
+          id: 'decimal',
         },
       ],
       col4: [
@@ -293,12 +339,12 @@ class CalculatorComponent extends React.Component {
         },
       ],
     };
-    const btnsRow1 = btns.row1.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} />);
-    const btnsRow2 = btns.row2.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} />);
-    const btnsRow3 = btns.row3.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} />);
-    const btnsRow4 = btns.row4.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} />);
-    const btnsCol4 = btns.col4.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} status={btn.status} />);
-    const btnsRow5 = btns.row5.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} />);
+    const btnsRow1 = btns.row1.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} id={btn.id} />);
+    const btnsRow2 = btns.row2.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} id={btn.id} />);
+    const btnsRow3 = btns.row3.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} id={btn.id} />);
+    const btnsRow4 = btns.row4.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} id={btn.id} />);
+    const btnsCol4 = btns.col4.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} status={btn.status} id={btn.id} />);
+    const btnsRow5 = btns.row5.map((btn) => <ButtonComponent key={btn.type} type={btn.type} label={btn.label} handler={btn.handler} id={btn.id} />);
 
     return (
       <Container fluid>
