@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import {
   Container, Col, Row,
@@ -45,6 +46,7 @@ class CalculatorComponent extends React.Component {
         const reDecimalZeroes = /\.0*$/;
         return reDecimalZeroes.test(numDecimals) ? numDecimals.replace(reDecimalZeroes, '') : numDecimals; // remove trailing zero decimals
       } catch (e) {
+        // eslint-disable-next-line
         console.log('format number error', e);
         return 0;
       }
